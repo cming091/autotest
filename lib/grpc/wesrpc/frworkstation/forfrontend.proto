@@ -1,0 +1,123 @@
+syntax = "proto3";
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/grpc/frworkstation";
+package frworkstation;
+
+import "containerExceptionTypeEnum.proto";
+import "containerTypeEnum.proto";
+
+option java_multiple_files = true;
+option java_package = "com.megvii.lbg.wes.grpc.frworkstation";
+option java_outer_classname = "FRWorkStation";
+
+// ProcessFlowEngine engine message channel
+message CheckContainerCodeRequest {
+  string warehouseCode = 1;
+  string containerCode = 2;
+}
+
+message CheckContainerCodeResponse {
+  int64  returnCode = 1;
+  string returnMsg = 2;
+  string returnUserMsg = 3;
+  ContainerSkuDetails containerSkuDetails = 4;
+}
+
+message ContainerSkuDetails {
+  string containerCode = 1;
+  string containerType = 2;
+  string canBeUsed = 3;
+  string failedReason = 4;
+  string skuCode = 5;
+  string skuName = 6;
+  string skuDesc = 7;
+  string skuQty = 8;
+  string skuType = 9;
+  string size = 10;
+  string weight = 11;
+  repeated ContainerCtxException exception = 12;
+}
+
+message BindContainerAndrfidRequest {
+  string warehouseCode = 1;
+  string containerCode = 2;
+  common.ContainerTypeEnum containerType = 3;
+  string rfids = 4;
+}
+
+message BindContainerAndrfidResponse {
+  int64  returnCode = 1;
+  string returnMsg = 2;
+  string returnUserMsg = 3;
+  BindContainerDetail bindContainerDetail = 4;
+}
+
+message BindContainerDetail {
+  string containerCode = 1;
+  string skuCode = 2;
+  string skuQty = 3;
+  string skuName = 4;
+  string skuType = 5;
+  string skuDesc = 6;
+  bool isBindSucc = 7;
+  string failReason = 8;
+}
+
+message QueryExceptionsResponse {
+  int64  returnCode = 1;
+  string returnMsg = 2;
+  string returnUserMsg = 3;
+  ContainerExceptionDetail exceptionDetails = 4;
+}
+
+message ContainerExceptionDetail {
+  string containerCode = 1;
+  string skuCode = 2;
+  string skuName = 3;
+  string skuQty = 4;
+  string skuType = 5;
+  string size = 6;
+  string weight = 7;
+  repeated ContainerCtxException exception = 8;
+}
+
+message ContainerCtxException {
+  common.ContainerExceptionTypeEnum exceptionType = 1;
+  string exceptionMsg = 2;
+}
+
+message UpdateContainerExceptionRequest {
+  string warehouseCode = 1;
+  string containerCode = 2;
+  bool   isContainerBroken = 3;
+  string skuCode = 4;
+  common.ContainerExceptionTypeEnum exceptionCode = 5;
+  int32  length = 6;
+  int32  width = 7;
+  int32  height = 8;
+  int32  weight = 9;
+}
+
+message UpdateContainerExceptionResponse {
+  int64  returnCode = 1;
+  string returnMsg = 2;
+  string returnUserMsg = 3;
+}
+
+message QueryExceptionByContainerCodeRequest {
+  string warehouseCode = 1;
+  string containerCode = 2;
+}
+
+message QueryExceptionByRFidListRequest {
+  string warehouseCode = 1;
+  string rFidList = 2;
+}
+
+service frontend {
+  rpc CheckContainerCode(CheckContainerCodeRequest) returns (CheckContainerCodeResponse) {}
+  rpc BindContainerAndrfid(BindContainerAndrfidRequest) returns (BindContainerAndrfidResponse) {}
+  rpc UpdateContainerException(UpdateContainerExceptionRequest) returns (UpdateContainerExceptionResponse) {}
+  rpc ExceBindContainerAndrfid(BindContainerAndrfidRequest) returns (BindContainerAndrfidResponse) {}
+  rpc QueryExceptionByContainerCode(QueryExceptionByContainerCodeRequest) returns (QueryExceptionsResponse) {}
+  rpc QueryExceptionByRFidList(QueryExceptionByRFidListRequest) returns (QueryExceptionsResponse) {}
+}

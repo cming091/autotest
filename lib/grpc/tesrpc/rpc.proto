@@ -1,0 +1,66 @@
+syntax = "proto3";
+//上面一行不要动
+
+// TES 接口定义 protobuf
+// Filename grpc_notify.proto
+// Filepath nsq-http/grpc/rpc.proto
+
+//编译
+//GoLang:
+//protoc --go_out=plugins=grpc:. rpc.proto
+
+//Python3:
+//pip3 install protobuf grpcio grpcio-tools googleapis-common-protos
+//protoc --python_out=. hetu_tes.proto
+//python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. rpc.proto
+
+//Java:
+//TODO
+
+
+package tesrpc;
+
+service TesRpc {
+    /*
+    测试用
+    */
+    rpc TestStream (TestRequest) returns (stream TestResponse) {}
+    /*
+    获取TES任务结果通知
+    */
+    rpc GetTaskNotice (stream GetTaskNoticeRequest) returns (stream GetTaskNoticeResponse) {}
+    /*
+    箱线数据上报
+    */
+    rpc GetConveyorDataReport (stream GetConveyorDataReportRequest) returns (stream GetConveyorDataReportResponse) {}
+}
+message TestResponse {
+    string data = 1;
+}
+message TestRequest {
+    string data = 1;
+}
+
+//GetTaskNotice请求结构
+message GetTaskNoticeRequest {
+    string warehouseID = 1;
+    string clientCode = 2;
+    string tokenCode = 3;
+    string topics = 4;
+    string msgType = 5;
+}
+//GetTaskNotice返回结构
+message GetTaskNoticeResponse {
+   string data = 1;
+}
+
+//GetConveyorDataReport请求结构
+message GetConveyorDataReportRequest {
+    string warehouseID = 1;
+    string clientCode = 2;
+    string msgType = 3;
+}
+//GetConveyorDataReport返回结构
+message GetConveyorDataReportResponse {
+   string data = 1;
+}

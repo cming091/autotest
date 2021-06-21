@@ -1,0 +1,89 @@
+syntax = "proto3";
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/grpc/wareshuttle";
+package wareshuttle;
+
+import "common.proto";
+
+// ProcessFlowEngine engine message channel
+service WareShuttle {
+  rpc AssignFloor(AssignFloorRequest) returns (AssignFloorResponse) {}
+
+  rpc PreemptFloor(PreemptFloorRequest) returns (common.CommonResponse) {}
+  rpc ReleaseFloor(ReleaseFloorRequest) returns (common.CommonResponse) {}
+
+  rpc ReportFloor(ReportFloorRequest) returns (common.CommonResponse) {}
+  rpc TriggerTakeIn(TriggerTakeInRequest) returns (common.CommonResponse) {}
+  rpc ReportDoneOut(ReportDoneOutRequest) returns (common.CommonResponse) {}
+  rpc ReportDoneIn(ReportDoneInRequest) returns (common.CommonResponse) {}
+}
+
+message AssignFloorRequest {
+  string traceID = 1;
+  string warehouseID = 2;
+  string warehouseCode = 3;
+  string regionCode = 4;
+  repeated string frameIDList = 5;
+}
+
+message AssignFloorResponse {
+  int64 returnCode = 1;
+  string returnMsg = 2;
+  string returnUserMsg = 3;
+  map<string, string> data = 4; // map<frameID, mapID>
+}
+
+message PreemptFloorRequest {
+  string traceID = 1;
+  string warehouseID = 2;
+  string warehouseCode = 3;
+  string regionCode = 4;
+  int64 sessionID = 5;
+  string mapID = 6;
+  int64 qty = 7;
+}
+
+message ReleaseFloorRequest {
+  string traceID = 1;
+  string warehouseID = 2;
+  string warehouseCode = 3;
+  string regionCode = 4;
+  int64 sessionID = 5;
+  string mapID = 6;
+}
+
+message ReportFloorRequest {
+  string traceID = 1;
+  string warehouseID = 2;
+  string warehouseCode = 3;
+  string regionCode = 4;
+  int64 actAggID = 6;
+  string mapID = 7;
+}
+
+message TriggerTakeInRequest {
+  string traceID = 1;
+  string warehouseID = 2;
+  string warehouseCode = 3;
+  string regionCode = 4;
+  int64 sessionID = 5;
+  int64 actAggID = 6;
+  string mapID = 7;
+}
+
+message ReportDoneOutRequest {
+  string traceID = 1;
+  string warehouseID = 2;
+  string warehouseCode = 3;
+  string regionCode = 4;
+  int64 sessionID = 5;
+  int64 actAggID = 6;
+}
+
+message ReportDoneInRequest {
+  string traceID = 1;
+  string warehouseID = 2;
+  string warehouseCode = 3;
+  string regionCode = 4;
+  int64 sessionID = 5;
+  int64 actAggID = 6;
+}

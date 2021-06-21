@@ -1,0 +1,42 @@
+syntax = "proto3";
+package warectu;
+
+
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/protp/warectu";
+import "internal.proto.warectu.common.proto";
+service Warectu {
+
+    rpc TransferTrigger (TransferTriggerRequest) returns (CommonResponse) {}
+
+    rpc ExchangeChooseStation (ExchangeChooseStationRequest) returns (ExchangeChooseStationResponse) {}
+}
+
+
+message TransferTriggerRequest {
+    string warehouseCode = 1;
+    string regionCode = 2;
+    repeated string waveNoList = 3;
+}
+
+message ExchangeChooseStationRequest {
+    string warehouseCode = 1;
+    string inComingBox = 2;
+    repeated StationBoxList stationBoxMapList = 3;
+}
+
+message StationBoxList {
+    string station = 1;
+    string BoxCode = 2;
+}
+
+
+message ExchangeChooseStationResponse {
+    int64 returnCode = 1;
+    string returnMsg = 2;
+    string returnUserMsg = 3;
+    ChooseStationDetail data = 4;
+}
+
+message ChooseStationDetail {
+    string StationCode = 1;
+}

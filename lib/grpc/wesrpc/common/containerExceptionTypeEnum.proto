@@ -1,0 +1,17 @@
+syntax = "proto3";
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/grpc/common";
+option java_package = "com.megvii.lbg.wes.grpc.common";
+package common;
+
+enum ContainerExceptionTypeEnum {
+  UNKNOWN = 0;             // 未知
+  NewSkuWithoutCode = 1;   // 新品无skuCode
+  NewSkuContainCode = 2;   // 新品额skuCode
+  SkuQuantityMismatch = 3; // FA拣选站点料箱异常(缺货/多货)
+
+  MixedSku = 101;             //混件
+  LessNumberOrBlocking = 102; //少件，堵路
+  OverNumber = 103;           //多件
+  Overweight = 104;           //超重
+  RFReadFailure = 105;        // rf读取失败
+};

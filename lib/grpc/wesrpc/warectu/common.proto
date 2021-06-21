@@ -1,0 +1,11 @@
+syntax = "proto3";
+package warectu;
+
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/protp/warectu";
+
+
+message CommonResponse {
+    int64 returnCode = 1;
+    string returnMsg = 2;
+    string returnUserMsg = 3;
+}

@@ -1,0 +1,59 @@
+syntax = "proto3";
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/grpc/invtransaction";
+option java_package = "com.megvii.lbg.wes.invtransaction.workorder";
+option java_multiple_files = true;
+package invtransaction;
+
+import "response.proto";
+
+service WorkOrderCommonService {
+  rpc executeActionAgg(ExecuteActionAggRequest) returns (CommonResponse) {}
+
+  rpc queryWorkOrderByContainerCodeAndStatus(
+      QueryWorkOrderByContainerCodeAndStatusRequest)
+      returns (QueryWorkOrderByContainerCodeAndStatusResponse) {}
+}
+
+message QueryWorkOrderByContainerCodeAndStatusRequest {
+  string containerCode = 1;
+  repeated int32 status = 2;
+}
+
+message WorkOrderDetail {
+  string woNo = 1;
+  int32 status = 2;
+  int32 transType = 3;
+  string containerCode = 4;
+  string containerCodeTo = 5;
+  string warehouseCode = 6;
+  string regionCode = 7;
+  string regionCodeTo = 8;
+  int64 containerSerialNo = 9;
+  string transportUnit = 10;
+  string group4opseq = 11;
+  string group4pack = 12;
+  int32 priority = 13;
+  string skuCode = 14;
+  string skuName = 15;
+  int32 qty = 16;
+  int32 actualQty = 17;
+  string waveNo = 18;
+}
+
+message QueryWorkOrderByContainerCodeAndStatusResponse {
+  int32 returnCode = 1;     //返回码,0：成功; 500：错误
+  string returnMsg = 2;     //返回错误信息
+  string returnUserMsg = 3; //返回用户错误信息
+  repeated WorkOrderDetail details = 4;
+}
+
+message ExecuteActionAggDetailRequest {
+  string woNo = 1;
+  string group4OpSeq = 2;
+  string group4pack = 3;
+}
+
+message ExecuteActionAggRequest {
+  string warehouseCode = 1;
+  repeated ExecuteActionAggDetailRequest details = 2;
+}

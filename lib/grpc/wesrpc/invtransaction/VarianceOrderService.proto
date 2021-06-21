@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package invtransaction;
+
+import "response.proto";
+
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/grpc/invtransaction";
+option java_package = "com.megvii.lbg.wes.invtransaction.variance";
+option java_multiple_files = true;
+
+service VarianceOrderService {
+  rpc VarianceOrderCreate(CreateVarianceOrderRequest) returns (CommonResponse) {}
+
+  rpc VarianceOrderConfirm(VarianceOrderConfirmRequest) returns(CommonResponse) {}
+
+  rpc VarianceOrderHandle(VarianceOrderHandleRequest) returns(CommonResponse) {}
+}
+
+message VarianceOrderHandleRequest {
+  string warehouseCode =1;
+  string woNo =2;
+  string station =3;
+  int32 type=4;
+  string user =5;
+}
+
+message VarianceOrderConfirmRequest {
+  string warehouseCode = 1;
+  string woNo =2;
+  string station =3;
+  string user =4;
+}
+
+message CreateVarianceOrderRequest {
+  string warehouseCode =1;
+  string varianceNo = 2;
+  string woNo =3;
+  int32 woType =4;
+  int32 reason =5;
+  string regionCode =6;
+  string loc =7;
+  int64 containerSerialNo =8;
+  string containerCode =9;
+  string skuCode =10;
+  string skuName =11;
+  string lot =12;
+  int32 grade =13;
+  int32 qty =14;
+  string station =15;
+  repeated string rfid =16;
+  string user =17;
+}

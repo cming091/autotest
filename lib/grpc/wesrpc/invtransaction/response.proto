@@ -1,0 +1,14 @@
+syntax = "proto3";
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/grpc/invtransaction";
+option java_package = "com.megvii.lbg.wes.invtransaction.workorder";
+option java_multiple_files = true;
+package invtransaction;
+
+import "google/protobuf/any.proto";
+
+message CommonResponse {
+  int32 returnCode = 1;                  //返回码,0：成功; 500：错误
+  string returnMsg = 2;                  //返回错误信息
+  string returnUserMsg = 3;              //返回用户错误信息
+  repeated google.protobuf.Any date = 4; //返回的数据
+}

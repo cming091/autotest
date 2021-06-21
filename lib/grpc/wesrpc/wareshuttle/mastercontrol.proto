@@ -1,0 +1,18 @@
+syntax = "proto3";
+option go_package = "git-pd.megvii-inc.com/slg-service/frworkstation/internal/grpc/wareshuttle";
+package wareshuttle;
+
+import "common.proto";
+
+// client message package define
+message WareTriggerRequest {
+  string traceID = 1;
+  string warehouseCode = 2;
+  string regionCode = 3;
+  repeated string waveNoList = 4;
+}
+
+// ProcessFlowEngine engine message channel
+service MasterControl {
+  rpc WaveTrigger(WareTriggerRequest) returns (common.CommonResponse) {}
+}
